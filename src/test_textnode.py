@@ -5,22 +5,22 @@ from textnode import TextNode, TextType
 
 class TestTextNode(unittest.TestCase):
     def test_eq(self):
-        node = TextNode("This is a text node", TextType.TEXT_BOLD)
-        node2 = TextNode("This is a text node", TextType.TEXT_BOLD)
+        node = TextNode("This is a text node", TextType.BOLD)
+        node2 = TextNode("This is a text node", TextType.BOLD)
         self.assertEqual(node, node2)
 
     def test_not_eq(self):
-        node = TextNode("This is a text node", TextType.TEXT_BOLD)
-        node2 = TextNode("This is a text node", TextType.TEXT_ITALIC)
+        node = TextNode("This is a text node", TextType.BOLD)
+        node2 = TextNode("This is a text node", TextType.ITALIC)
         self.assertNotEqual(node, node2)
 
     def test_default_url(self):
-        node = TextNode("This is a text node", TextType.TEXT_BOLD)
+        node = TextNode("This is a text node", TextType.BOLD)
         self.assertIs(node.url, None)
 
     def test_text_not_eq(self):
-        node = TextNode("This is a text nod", TextType.TEXT_BOLD)
-        node2 = TextNode("This is a text node", TextType.TEXT_BOLD)
+        node = TextNode("This is a text nod", TextType.BOLD)
+        node2 = TextNode("This is a text node", TextType.BOLD)
         self.assertNotEqual(node, node2)
 
     def test_no_text_eq(self):
@@ -29,26 +29,18 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual(node, node2)
 
     def test_no_text_not_eq(self):
-        node = TextNode("", TextType.TEXT_BOLD)
-        node2 = TextNode("", TextType.TEXT_ITALIC)
+        node = TextNode("", TextType.BOLD)
+        node2 = TextNode("", TextType.ITALIC)
         self.assertNotEqual(node, node2)
 
     def test_url_eq(self):
-        node = TextNode(
-            "This is a text node", TextType.TEXT_BOLD, "http://www.boot.dev"
-        )
-        node2 = TextNode(
-            "This is a text node", TextType.TEXT_BOLD, "http://www.boot.dev"
-        )
+        node = TextNode("This is a text node", TextType.BOLD, "http://www.boot.dev")
+        node2 = TextNode("This is a text node", TextType.BOLD, "http://www.boot.dev")
         self.assertEqual(node, node2)
 
     def test_url_not_eq(self):
-        node = TextNode(
-            "This is a text node", TextType.TEXT_BOLD, "http://www.boot.dev/"
-        )
-        node2 = TextNode(
-            "This is a text node", TextType.TEXT_BOLD, "http://www.boot.dev"
-        )
+        node = TextNode("This is a text node", TextType.BOLD, "http://www.boot.dev/")
+        node2 = TextNode("This is a text node", TextType.BOLD, "http://www.boot.dev")
         self.assertNotEqual(node, node2)
 
     def test_repr(self):

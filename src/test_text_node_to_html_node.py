@@ -22,19 +22,19 @@ class TestTextNodeToHTMLNode(unittest.TestCase):
         )
 
     def test_bold(self):
-        node = TextNode("This is bold", TextType.TEXT_BOLD)
+        node = TextNode("This is bold", TextType.BOLD)
         html_node = text_node_to_html_node(node)
         self.assertEqual(html_node.tag, "b")
         self.assertEqual(html_node.value, "This is bold")
 
     def test_italic(self):
-        node = TextNode("This is italic", TextType.TEXT_ITALIC)
+        node = TextNode("This is italic", TextType.ITALIC)
         html_node = text_node_to_html_node(node)
         expected = "<i>This is italic</i>"
         self.assertEqual(expected, html_node.to_html())
 
     def test_code(self):
-        node = TextNode("This is code", TextType.TEXT_CODE)
+        node = TextNode("This is code", TextType.CODE)
         html_node = text_node_to_html_node(node)
         leaf_node = LeafNode("code", "This is code")
         self.assertEqual(html_node.to_html(), leaf_node.to_html())
