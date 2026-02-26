@@ -55,7 +55,7 @@ def generate_pages_recursive(
             item_path = os.path.join(dir_path_content, item)
             destination = os.path.join(destination_dir, item)
             if os.path.isfile(item_path):
-                generate_page(item_path, template_path, destination)
+                generate_page(item_path, template_path, destination, basepath)
             elif os.path.isdir(item_path):
                 print(f"Entering directoy: {item_path}")
                 generate_pages_recursive(

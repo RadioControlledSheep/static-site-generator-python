@@ -1,1 +1,1 @@
-python3 src/main.py "RadioControlledSheep/static-site-generator-python"
+python3 src/main.py "/static-site-generator-python/"
