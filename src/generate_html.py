@@ -21,7 +21,6 @@ def generate_page(from_path, template_path, dest_path):
         raise ValueError(f"missing template: {template_path}")
     if os.path.isdir(template_path):
         raise ValueError(f"invalid template: {template_path} is a directory")
-    print(f"Generating page from {from_path} to {dest_path} using {template_path}")
     markdown = open(from_path).read()
     title = extract_title(markdown)
     template = open(template_path).read()
@@ -32,15 +31,26 @@ def generate_page(from_path, template_path, dest_path):
     target_path = dest_path[:target_file_index]
     if not os.path.exists(target_path):
         os.mkdir(target_path)
+    if dest_path[-2:] == "md":
+        dest_path = dest_path[:-2] + "html"
+    print(f"Generating page from {from_path} to {dest_path} using {template_path}")
     with open(dest_path, "w") as f:
         f.write(html)
 
 
-"""Create a generate_page(from_path, template_path, dest_path) function. It should:
-Print a message like "Generating page from from_path to dest_path using template_path".
-Read the markdown file at from_path and store the contents in a variable.
-Read the template file at template_path and store the contents in a variable.
-Use your markdown_to_html_node function and .to_html() method to convert the markdown file to an HTML string.
-Use the extract_title function to grab the title of the page.
-Replace the {{ Title }} and {{ Content }} placeholders in the template with the HTML and title you generated.
-Write the new full HTML page to a file at dest_path. Be sure to create any necessary directories if they don't exist."""
+def generate_pages_recursive(dir_path_content, template_path, destination_dir):
+    if os.path.exists(dir_path_content):
+        if not os.path.exists(destination_dir):
+            print(f"Creating: {destination_dir}")
+            os.mkdir(destination_dir)
+        listing = os.listdir(dir_path_content)
+        for item in listing:
+            item_path = os.path.join(dir_path_content, item)
+            destination = os.path.join(destination_dir, item)
+            if os.path.isfile(item_path):
+                generate_page(item_path, template_path, destination)
+            elif os.path.isdir(item_path):
+                print(f"Entering directoy: {item_path}")
+                generate_pages_recursive(item_path, template_path, destination)
+    else:
+        raise ValueError("invalid source directory")
