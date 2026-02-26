@@ -29,6 +29,7 @@ def generate_page(from_path, template_path, dest_path, basepath="/"):
         template.replace("{{ Content }}", html_from_md)
         .replace("{{ Title }}", title)
         .replace('href="/', f'href="{basepath}')
+        .replace('src="/', f'src="{basepath}')
     )
     # print(html)
     target_file_index = dest_path.rfind("/")
