@@ -12,7 +12,7 @@ def extract_title(markdown):
     raise ValueError("invalid markdown, no h1")
 
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath="/"):
     if not os.path.exists(from_path):
         raise ValueError(f"invalid source: {from_path}")
     if os.path.isdir(from_path):
@@ -25,7 +25,11 @@ def generate_page(from_path, template_path, dest_path):
     title = extract_title(markdown)
     template = open(template_path).read()
     html_from_md = markdown_to_html_node(markdown).to_html()
-    html = template.replace("{{ Content }}", html_from_md).replace("{{ Title }}", title)
+    html = (
+        template.replace("{{ Content }}", html_from_md)
+        .replace("{{ Title }}", title)
+        .replace('href="/', f'href="{basepath}')
+    )
     # print(html)
     target_file_index = dest_path.rfind("/")
     target_path = dest_path[:target_file_index]
@@ -38,7 +42,9 @@ def generate_page(from_path, template_path, dest_path):
         f.write(html)
 
 
-def generate_pages_recursive(dir_path_content, template_path, destination_dir):
+def generate_pages_recursive(
+    dir_path_content, template_path, destination_dir, basepath="/"
+):
     if os.path.exists(dir_path_content):
         if not os.path.exists(destination_dir):
             print(f"Creating: {destination_dir}")
@@ -51,6 +57,8 @@ def generate_pages_recursive(dir_path_content, template_path, destination_dir):
                 generate_page(item_path, template_path, destination)
             elif os.path.isdir(item_path):
                 print(f"Entering directoy: {item_path}")
-                generate_pages_recursive(item_path, template_path, destination)
+                generate_pages_recursive(
+                    item_path, template_path, destination, basepath
+                )
     else:
         raise ValueError("invalid source directory")
